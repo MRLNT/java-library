@@ -1,12 +1,17 @@
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 import dao.BukuDao;
 import dao.OrangDao;
+import dao.PinjamDao;
 import models.Buku;
 import models.Orang;
+import models.Pinjam;
 import services.book.BookService;
 import services.book.BookServiceImplementation;
+import services.borrow.BorrowService;
+import services.borrow.BorrowServiceImplementation;
 import services.person.PersonService;
 import services.person.PersonServiceImplementation;
 
@@ -18,6 +23,9 @@ public class Main {
 
     static OrangDao orangDao = new OrangDao();
     static PersonService personService = new PersonServiceImplementation(orangDao);
+
+    static PinjamDao pinjamDao = new PinjamDao();
+    static BorrowService borrowService = new BorrowServiceImplementation(pinjamDao);
 
     private static void menuTidakAda() {
         System.out.print("Input Tidak sesuai/Menu tidak ada\n");
@@ -48,6 +56,34 @@ public class Main {
         System.out.print("Pilihan: ");
     }
 
+    private static void pinjamBuku() {
+        System.out.print("Masukkan ID Index Buku: ");
+        Integer idBuku = Integer.valueOf(scanner.nextLine());
+        System.out.print("Masukkan ID Index User: ");
+        Integer idUser = Integer.valueOf(scanner.nextLine());
+        LocalDate borrowDate = LocalDate.now();
+        String statusPeminjaman = "Peminjaman";
+        borrowService.createBorrow(new Pinjam(idBuku, idUser, borrowDate, statusPeminjaman));
+        System.out.println("Peminjaman Berhasil");
+    }
+
+    private static void pengembalianBuku(){
+        List<Pinjam> result = borrowService.getAllBorrow();
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println((i + 1) + ". " + result.get(i));
+        }
+        System.out.print("PILIH INDEX PENGEMBALIAN BUKU: ");
+        Integer pilihEdit = Integer.valueOf(scanner.nextLine());
+        Pinjam hasil = borrowService.getBorrowById(pilihEdit);
+        Integer idBuku = hasil.getIdBuku();
+        Integer idUser = hasil.getIdUser();
+        LocalDate borrowDate = LocalDate.now();
+        String statusPeminjaman = "Pengembalian";
+        //HARUSNYA SET
+        borrowService.deleteBorrow(pilihEdit);
+        borrowService.createBorrow(new Pinjam(idBuku, idUser, borrowDate, statusPeminjaman));
+    }
+
     private static void tambahBuku() {
         System.out.print("Masukkan Judul Buku: ");
         String judul = scanner.nextLine();
@@ -56,8 +92,6 @@ public class Main {
         System.out.print("Masukkan Pengarang Buku: ");
         String pengarang = scanner.nextLine();
         
-        // Buku buku = new Buku(judul, penerbit, pengarang);
-        // bookService.createBook(buku);
         bookService.createBook(new Buku(judul, penerbit, pengarang));
     }
 
@@ -158,6 +192,12 @@ public class Main {
                         default:  menuTidakAda();
                             break;
                         }
+                        break;
+                    case "3":
+                        pinjamBuku();
+                        break;
+                    case "4":
+                        pengembalianBuku();
                         break;
                     default:
                         menuTidakAda();

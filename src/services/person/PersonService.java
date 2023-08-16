@@ -1,7 +1,6 @@
 package services.person;
 
 import java.util.List;
-
 import models.Orang;
 
 public interface PersonService {
