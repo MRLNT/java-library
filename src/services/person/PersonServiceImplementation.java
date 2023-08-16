@@ -35,4 +35,10 @@ public class PersonServiceImplementation implements PersonService{
         //throw exception errornya
         return orangDao.findById(id);
     }
+
+    @Override
+    public void deletePerson(Integer id) {
+        orangDao.delete(id);
+        System.out.println("ANGGOTA TELAH DI HAPUS");
+    }
 }

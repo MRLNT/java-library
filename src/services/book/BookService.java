@@ -11,4 +11,6 @@ public interface BookService {
     List<Buku> getAllBook();
 
     Buku getBookById(Integer id);
+
+    void deleteBook(Integer id);
 }

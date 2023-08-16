@@ -36,6 +36,7 @@ public class Main {
         System.out.println("1. TAMBAH BUKU");
         System.out.println("2. LIHAT SEMUA BUKU");
         System.out.println("3. LIHAT BUKU DARI INDEX");
+        System.out.println("4. HAPUS BUKU");
         System.out.print("Pilihan: ");
     }
 
@@ -43,6 +44,7 @@ public class Main {
         System.out.println("1. TAMBAH ANGGOTA");
         System.out.println("2. LIHAT SEMUA ANGGOTA");
         System.out.println("3. LIHAT ANGGOTA DARI INDEX");
+        System.out.println("4. HAPUS ANGGOTA");
         System.out.print("Pilihan: ");
     }
 
@@ -83,14 +85,14 @@ public class Main {
     }
 
     private static void liatBukuDariIndex(){
-        System.out.println("Masukkan index buku : ");
+        System.out.print("Masukkan index buku : ");
         Integer pilihBuku = Integer.valueOf(scanner.nextLine());
         Buku hasil = bookService.getBookById(pilihBuku);
         System.out.println(hasil);
     }
 
     private static void liatAnggotaDariIndex(){
-        System.out.println("Masukkan index Anggota : ");
+        System.out.print("Masukkan index Anggota : ");
         Integer pilihAnggota = Integer.valueOf(scanner.nextLine());
         Orang hasil = personService.getPersonById(pilihAnggota);
         System.out.println(hasil);
@@ -101,6 +103,18 @@ public class Main {
         bookService.createBook(new Buku("Openheimer", "Gramedia", "Si Nolan"));
         personService.createPerson(new Orang("marcel", "marcel@gmail.com"));
         personService.createPerson(new Orang("antonio", "antonio@gmail.com"));
+    }
+
+    private static void hapusBuku(){
+        System.out.print("Masukkan index Buku : ");
+        Integer hapus = Integer.valueOf(scanner.nextLine());
+        bookService.deleteBook(hapus);
+    }
+
+    private static void hapusAnggota(){
+        System.out.print("Masukkan index Anggota : ");
+        Integer hapus = Integer.valueOf(scanner.nextLine());
+        personService.deletePerson(hapus);
     }
 
     public static void main(String[] args) {
@@ -123,6 +137,8 @@ public class Main {
                             break;
                         case "3": liatBukuDariIndex();
                             break;
+                        case "4": hapusBuku();
+                        break;
                         default:  menuTidakAda();
                             break;
                         }
@@ -136,6 +152,8 @@ public class Main {
                         case "2": lihatSemuaAnggota();
                             break;
                         case "3": liatAnggotaDariIndex();
+                            break;
+                        case "4": hapusAnggota();
                             break;
                         default:  menuTidakAda();
                             break;

@@ -35,4 +35,10 @@ public class BookServiceImplementation implements BookService{
         //throw exception errornya
         return bukuDao.findById(id);
     }
+
+    @Override
+    public void deleteBook(Integer id) {
+        bukuDao.delete(id);
+        System.out.println("BUKU TELAH DI HAPUS");
+    }
 }

@@ -9,4 +9,5 @@ public interface PersonService {
     void createPerson(Orang orang);
     List<Orang> getAllPerson();
     Orang getPersonById(Integer id);
+    void deletePerson(Integer id);
 }
